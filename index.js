@@ -55,12 +55,18 @@ const components = [
 ];
 
 client.on("messageCreate", async (msg) => {
-  if (!msg.content.startsWith("f;")) return;
+  if (msg.content === `<@${client.user.id}>`) {
+    return msg.reply({
+      content: `Use \`${process.env.PREFIX}help\` to see all my commands !`,
+    });
+  }
+
+  if (!msg.content.startsWith(process.env.PREFIX)) return;
   const args = msg.content.split(" ");
   const command = args[0];
 
-  if (command === "f;send") {
-    if (msg.author.id !== "713115896805064856") return;
+  if (command === process.env.PREFIX + "send") {
+    if (msg.author.id !== process.env.OWNER) return;
     console.log(
       `🟠 || Sending panel in #${msg.channel.name} (${msg.channel.id}) !`,
     );
@@ -75,7 +81,7 @@ client.on("messageCreate", async (msg) => {
       .send({ embeds: [embed], components })
       .then((m) => m.pin());
     await msg.delete();
-  } else if (command === "f;unclaim") {
+  } else if (command === process.env.PREFIX + "unclaim") {
     if (!msg.member.roles.cache.has(process.env.STAFF_ROLE))
       return msg.reply({
         content: "You do not have the permissions to do this.",
@@ -93,7 +99,7 @@ client.on("messageCreate", async (msg) => {
     ticket.claimed = false;
     writeTickets(tickets);
     await msg.reply({ content: "Ticket unclaimed." });
-  } else if (command === "f;claim") {
+  } else if (command === process.env.PREFIX + "claim") {
     if (!msg.member.roles.cache.has(process.env.STAFF_ROLE))
       return msg.reply({
         content: "You do not have the permissions to do this.",
@@ -111,7 +117,7 @@ client.on("messageCreate", async (msg) => {
     ticket.claimed = msg.author.id;
     writeTickets(tickets);
     await msg.reply({ content: `Ticket claimed by <@${msg.author.id}>.` });
-  } else if (command === "f;help") {
+  } else if (command === process.env.PREFIX + "help") {
     await msg.reply({
       content: `**Available Commands**:
 - \`f;send\` (Owner only)
