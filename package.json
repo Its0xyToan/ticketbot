@@ -1,11 +1,13 @@
 {
-  "name": "tickets",
+  "name": "ticketbot",
   "version": "1.0.0",
   "type": "module",
-  "description": "",
+  "description": "A simple ticket bot for Discord",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm test && node index.js",
+    "dev": "nodemon index.js",
+    "test": "node test.js"
   },
   "private": true,
   "dependencies": {
